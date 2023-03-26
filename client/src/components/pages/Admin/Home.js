@@ -26,58 +26,24 @@ import styled from "styled-components";
 
 export const theme = createTheme();
 
-
-// function TabPanel(props) {
-//   const { children, value, index, ...other } = props;
-
-//   return (
-//     <div
-//       role="tabpanel"
-//       hidden={value !== index}
-//       id={`simple-tabpanel-${index}`}
-//       aria-labelledby={`simple-tab-${index}`}
-//       {...other}
-//     >
-//       {value === index && (
-//         <Box sx={{ p: 3 }}>
-//           <Typography>{children}</Typography>
-//         </Box>
-//       )}
-//     </div>
-//   );
-// }
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <Box
+    <div
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      sx={{ 
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%',
-        width: '100%',
-        textAlign: 'center',
-        backgroundColor: 'background.paper',
-        borderRadius: '8px',
-        boxShadow: 1,
-        '&[hidden]': {
-          display: 'none',
-        },
-      }}
+      style={{ backgroundColor: "pink" }}
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+        <Box sx={{ marginTop: 2, padding: 2 }}>
+          {children}
         </Box>
       )}
-    </Box>
+    </div>
   );
 }
 
@@ -89,8 +55,8 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
   return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    id: `tab-${index}`,
+    "aria-controls": `tabpanel-${index}`,
   };
 }
 
@@ -108,82 +74,37 @@ export function Home() {
     setUser(user);
     console.log("user", user);
   }, []);
-
-  // return (
-  //   <ThemeProvider theme={theme}>
-  //     <Container component="main" maxWidth="xs">
-  //       <CssBaseline />
-  //       <Box
-  //         sx={{
-  //           marginTop: 8,
-  //           display: "flex",
-  //         }}
-  //       >
-  //         <Typography component="h1" variant="h5">
-  //           Welcome to your dashboard, {user.username} !
-  //         </Typography>
-  //       </Box>
-  //       <Box
-  //         sx={{
-  //           marginTop: 8,
-  //           display: "flex",
-  //         }}
-  //       >
-  //         <Typography component="h1" variant="h5">
-  //           You are logged in as ADMIN.
-  //         </Typography>
-  //       </Box>
-  //       <Box sx={{ width: "100%" }}>
-  //         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-  //           <Tabs
-  //             value={value}
-  //             onChange={handleChange}
-  //             aria-label="basic tabs example"
-  //           >
-  //             <Tab label="Doctors" {...a11yProps(0)} />
-  //             <Tab label="Patients" {...a11yProps(1)} />
-  //           </Tabs>
-  //         </Box>
-  //         <TabPanel value={value} index={0}>
-  //           <DoctorsList />
-  //         </TabPanel>
-  //         <TabPanel value={value} index={1}>
-  //           <PatientsList />
-  //         </TabPanel>
-  //       </Box>
-  //       {/* <DoctorsList/> */}
-  //     </Container>
-  //   </ThemeProvider>
-  // );
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="lg">
         <CssBaseline />
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <Typography variant="h5" align="center" sx={{ mt: 4 }}>
-            {`Welcome to your dashboard, ${user.username}!`}
+        <Box sx={{ marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <Typography component="h1" variant="h4" sx={{ marginBottom: 2, fontWeight: 'bold', color: theme.palette.primary.main }}>
+            Welcome to your dashboard, {user.username}!
           </Typography>
-          <Typography variant="h6" align="center" sx={{ mt: 2 }}>
-            {"You are logged in as ADMIN."}
+          <Typography component="h2" variant="h5" sx={{ marginBottom: 4, color: theme.palette.secondary.main }}>
+            You are logged in as ADMIN.
           </Typography>
-        </Box>
-        <Box sx={{ width: "100%", mt: 4 }}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="basic tabs example"
-            >
-              <Tab label="Doctors" {...a11yProps(0)} />
-              <Tab label="Patients" {...a11yProps(1)} />
-            </Tabs>
+          <Box sx={{ width: "100%" }}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider", marginBottom: 2 }}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="basic tabs example"
+                centered
+                sx={{ backgroundColor: theme.palette.background.paper }}
+              >
+                <Tab label="Doctors" {...a11yProps(0)} sx={{ fontWeight: 'bold' }} />
+                <Tab label="Patients" {...a11yProps(1)} sx={{ fontWeight: 'bold' }} />
+              </Tabs>
+            </Box>
+            <TabPanel value={value} index={0}>
+              <DoctorsList />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <PatientsList />
+            </TabPanel>
           </Box>
-          <TabPanel value={value} index={0}>
-            <DoctorsList />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <PatientsList />
-          </TabPanel>
         </Box>
       </Container>
     </ThemeProvider>
@@ -214,47 +135,15 @@ export function DoctorsList() {
       });
   }, []);
 
-  // return (
-  //   <Container component="main" maxWidth="sm">
-  //     {/* <div> */}
-  //     {doctors.map((test) => (
-  //       // console.log(test.id)
-  //       <UserCard key={test.id} test={test} />
-  //     ))}
-  //   </Container>
-  //   // </div>
-  // );
   return (
-    <Container component="main" maxWidth="sm">
+    <Container component="main" maxWidth="lg">
       {doctors.map((test) => (
-        <Card
-          key={test.id}
-          sx={{
-            maxWidth: "100%",
-            width: "100%",
-            mb: 2,
-            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
-            cursor: "pointer",
-            transition: "transform 0.2s ease-in-out",
-            "&:hover": {
-              transform: "scale(1.05)",
-            },
-          }}
-          onClick={() => window.location.href=`/user/${test.id}`}
-        >
-          <Box sx={{ p: 2 }}>
-            <Typography sx={{ fontSize: 20, fontWeight: 500 }}>
-              {test.username}
-            </Typography>
-            <Typography sx={{ fontSize: 14, color: "#777" }}>
-              {test.email}
-            </Typography>
-          </Box>
-        </Card>
+        <div key={test.id} onClick={() => window.location.href = `/user/${test.id}`} style={{ cursor: "pointer" }}>
+          <UserCard test={test} />
+        </div>
       ))}
     </Container>
   );
-  
 }
 
 export function PatientsList() {
@@ -281,84 +170,32 @@ export function PatientsList() {
   }, []);
 
   return (
-    <Container component="main" maxWidth="sm">
+    <Container component="main" maxWidth="lg">
       {patients.map((test) => (
-        <Card
-          key={test.id}
-          sx={{
-            maxWidth: "100%",
-            width: "100%",
-            mb: 2,
-            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
-            cursor: "pointer",
-            transition: "transform 0.2s ease-in-out",
-            "&:hover": {
-              transform: "scale(1.05)",
-            },
-          }}
-          onClick={() => window.location.href=`/user/${test.id}`}
-        >
-          <Box sx={{ p: 2 }}>
-            <Typography sx={{ fontSize: 20, fontWeight: 500 }}>
-              {test.username}
-            </Typography>
-            <Typography sx={{ fontSize: 14, color: "#777" }}>
-              {test.email}
-            </Typography>
-          </Box>
-        </Card>
+        <div key={test.id} onClick={() => window.location.href = `/user/${test.id}`} style={{ cursor: "pointer" }}>
+          <UserCard test={test} />
+        </div>
       ))}
     </Container>
   );
+  
 }
 
-const StyledCard = styled(Card)`
-  margin-top: 32px;
-  display: flex;
-  align-items: center;
-  padding: 16px;
-  border-radius: 4px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-
-  &:hover {
-    transform: scale(1.05);
-  }
-`;
-
-const UserText = styled(Typography)`
-  display: inline-block;
-  font-size: 18px;
-  font-weight: 500;
-  color: #212121;
-  margin-right: 12px;
-  width: 60%;
-`;
-
-const EmailText = styled(Typography)`
-  display: inline-block;
-  font-size: 14px;
-  color: #757575;
-`;
-
 const UserCard = ({ test }) => {
-  const handleClick = () => {
-    window.location.href = `/user/${test.id}`;
-  };
-
   return (
-    <StyledCard onClick={handleClick} className="UserCard">
-      <Grid container alignItems="center" style={{flexWrap: 'wrap'}}>
-        <Grid item xs={12} sm={8}>
-          <UserText variant="h5" component="h2">
-            {test.username}
-          </UserText>
-          <EmailText variant="body2" component="p">
-            {test.email}
-          </EmailText>
-        </Grid>
-      </Grid>
-    </StyledCard>
+    <Card sx={{marginTop:2,display:"flex",flexDirection:"row",alignItems:"center",padding:"1rem",boxShadow:"0px 4px 10px rgba(0, 0, 0, 0.5)",borderRadius:"10px"}} >
+  <Grid container spacing={2} alignItems="center">
+    <Grid item xs={6}>
+      <Typography variant="h5" component="h2" textAlign="center" >
+        {test.username}
+        </Typography>
+    </Grid>
+    <Grid item xs={6}>
+    <Typography variant="body" component="p" textAlign="center" >
+        {test.email}
+      </Typography>
+    </Grid>
+  </Grid>
+  </Card>
   );
 };

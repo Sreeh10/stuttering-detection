@@ -40,10 +40,11 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
+      style={{ backgroundColor: "pink" }}
       {...other}
     >
       {value === index && (
-        <Box sx={{ marginTop: 2, backgroundColor: "#f5f5f5", padding: 2 }}>
+        <Box sx={{ marginTop: 2, padding: 2 }}>
           {children}
         </Box>
       )}
@@ -81,7 +82,7 @@ export function Home() {
   }, []);
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="lg">
         <CssBaseline />
         <Box sx={{ marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center" }}>
           <Typography component="h1" variant="h4" sx={{ marginBottom: 2, fontWeight: 'bold', color: theme.palette.primary.main }}>
@@ -137,7 +138,7 @@ export function DoctorsList() {
   }, []);
 
   return (
-    <Container component="main" maxWidth="sm">
+    <Container component="main" maxWidth="lg">
       {doctors.map((test) => (
         <UserCard key={test.id} test={test} />
       ))}
@@ -175,7 +176,7 @@ export function PatientsList() {
   }, []);
 
   return (
-    <Container component="main" maxWidth="sm">
+    <Container component="main" maxWidth="lg">
       {/* <div> */}
       {patients.map((test) => (
         <div>
@@ -186,36 +187,11 @@ export function PatientsList() {
     </Container>
     // </div>
   );
-  // return (
-  //   <Container component="main" maxWidth="sm">
-  //     {patients.map((test) => (
-  //       <div style={{ marginBottom: "20px" }}>
-  //         <Card sx={{ minWidth: 275 }}>
-  //           <CardContent>
-  //             <Typography variant="h5" component="h2">
-  //               {test.name}
-  //             </Typography>
-  //             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-  //               {test.gender}
-  //             </Typography>
-  //             <Typography variant="body2">
-  //               {test.email} <br />
-  //               {test.phone}
-  //             </Typography>
-  //           </CardContent>
-  //         </Card>
-  //       </div>
-  //     ))}
-  //   </Container>
-  // );
 }
 
 const UserCard = ({ test }) => {
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
-  const handleClick = () => {
-    window.location.href = `/user/${test.id}`;
-  };
   const handleOpen = () => setOpen(true);
   const handleOpen2 = () => setOpen2(true);
   const handleClose = () => {
@@ -292,65 +268,85 @@ const UserCard = ({ test }) => {
         console.log(err);
       });
   }
-  function deleteUser(id) {
-    const headers = {
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json",
-    };
-    axios(`http://localhost:5000/doctors/${id}`, {
-      method: "DELETE",
-      headers: headers,
-    })
-      .then((res) => {
-        console.log("success");
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
 
   return ( 
-    <Card sx={{marginTop:2,display:"flex",flexDirection:"row",alignItems:"center",padding:"1rem",boxShadow:"0px 4px 10px rgba(0, 0, 0, 0.5)",borderRadius:"10px"}}>
+    <Card sx={{marginTop:2,display:"flex",flexDirection:"row",alignItems:"center",padding:"1rem",boxShadow:"0px 4px 10px rgba(0, 0, 0, 0.5)",borderRadius:"10px"}} >
   <Grid container spacing={2} alignItems="center">
-    <Grid item xs={6}>
-      <Typography variant="h5" component="h2">
-        {test.username}
-        <IconButton size="small" onClick={handleOpen2} sx={{ bgcolor: "#e0e0e0", ml: "0.5rem" }}><EditIcon sx={{ color: "grey" }} /></IconButton>
-      </Typography>
-    </Grid>
-    <Grid item xs={6}>
-      <Typography variant="body2" component="p">
-        {test.email}
-        <IconButton size="small" onClick={handleOpen2} sx={{ bgcolor: "#e0e0e0", ml: "0.5rem" }}><EditIcon sx={{ color: "" }} /></IconButton>
-      </Typography>
-    </Grid>
+  <Grid item xs={6}>
+    <Typography variant="h5" component="h2" textAlign="center" >
+      {test.username}
+      <IconButton size="small" onClick={handleOpen} sx={{ bgcolor: "#e0e0e0", ml: "0.5rem" }}>
+        <EditIcon sx={{ color: "blue" }} />
+      </IconButton>
+    </Typography>
   </Grid>
-  <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-    <Box sx={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)"}}>
-      <Card sx={{p:2}}>
-        <Typography id="modal-modal-title" variant="h6" component="h2" sx={{mb:2}}>Edit username</Typography>
-        <TextField id="standard-basic" label="Username" variant="outlined" fullWidth value={textInput} onChange={handleTextInputChange} sx={{mb:2}}/>
-        <Box sx={{display:"flex",justifyContent:"flex-end"}}>
-          <Button variant="contained" onClick={handleClose} sx={{mr:1}}>Cancel</Button>
-          <Button variant="contained" color="primary" onClick={() => {edit_name(test.username);handleClose();}}>Save</Button>
+  <Grid item xs={5}>
+    <Typography variant="body" component="p" textAlign="center">
+      {test.email}
+      <IconButton size="small" onClick={handleOpen2} sx={{ bgcolor: "#e0e0e0", ml: "0.5rem" }}>
+        <EditIcon sx={{ color: "blue" }} />
+      </IconButton>
+    </Typography>
+  </Grid>
+</Grid>
+
+<Modal open={open} onClose={handleClose} aria-labelledby="modal-title" aria-describedby="modal-description">
+  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+    <Card sx={{ width: 400 }}>
+      <CardContent>
+        <Typography id="modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+          Edit Username
+        </Typography>
+        <TextField
+          id="standard-basic"
+          label="Username"
+          variant="filled"
+          fullWidth
+          value={textInput}
+          onChange={handleTextInputChange}
+          sx={{ mb: 2 }}
+        />
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button variant="contained" onClick={handleClose} sx={{ borderRadius: '20px', py: 1, px: 3 }}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="primary" onClick={() => { edit_name(test.username); handleClose(); }} sx={{ borderRadius: '20px', py: 1, px: 3 }}>
+            Save
+          </Button>
         </Box>
-      </Card>
-    </Box>
-  </Modal>
-  <Modal open={open2} onClose={handleClose2} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-    <Box sx={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)"}}>
-      <Card sx={{p:2}}>
-        <Typography id="modal-modal-title" variant="h6" component="h2" sx={{mb:2}}>Edit email</Typography>
-        <TextField id="standard-basic" label="Email" variant="outlined" fullWidth value={textInput2} onChange={handleTextInputChange2} sx={{mb:2}}/>
-        <Box sx={{display:"flex",justifyContent:"flex-end"}}>
-          <Button variant="contained" onClick={handleClose2} sx={{mr:1}}>Cancel</Button>
-          <Button variant="contained" color="primary" onClick={() => {edit_email(test.email);handleClose2();}}>Save</Button>
+      </CardContent>
+    </Card>
+  </Box>
+</Modal>
+  
+  <Modal open={open2} onClose={handleClose2} aria-labelledby="modal-title" aria-describedby="modal-description">
+  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+    <Card sx={{ width: 400 }}>
+      <CardContent>
+        <Typography id="modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+          Edit Username
+        </Typography>
+        <TextField
+          id="standard-basic"
+          label="Email"
+          variant="filled"
+          fullWidth
+          value={textInput2}
+          onChange={handleTextInputChange2}
+          sx={{ mb: 2 }}
+        />
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button variant="contained" onClick={handleClose2} sx={{ borderRadius: '20px', py: 1, px: 3 }}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="primary" onClick={() => { edit_email(test.email); handleClose2(); }} sx={{ borderRadius: '20px', py: 1, px: 3 }}>
+            Save
+          </Button>
         </Box>
-      </Card>
-    </Box>
-  </Modal>
+      </CardContent>
+    </Card>
+  </Box>
+</Modal>
 </Card>
   );  
 };
