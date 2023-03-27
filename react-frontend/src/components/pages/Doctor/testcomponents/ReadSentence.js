@@ -196,7 +196,7 @@ export function NewQuestion({
         </Typography>
 
         <Grid item xs={12}>
-          <Button onClick={handleRecording}>Record</Button>
+          <Button onClick={handleRecording} class="">Record</Button>
           <Button onClick={handleStop}>Stop</Button>
           <Button onClick={handlePause}> Pause </Button>
           <Button onClick={handleResume}> Resume </Button>
