@@ -24,6 +24,7 @@ import { useParams } from "react-router-dom";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import html2pdf from 'html2pdf.js';
+import aiishPic from "../images/AIISH_LoGO.jpeg";
 
 export default function ViewTest() {
   const { id } = useParams();
@@ -78,17 +79,24 @@ export default function ViewTest() {
         </div>
       ) : (
         <div>
+          <br />
           <div id="divToPrint">
+            <div style={{ display: 'flex', flex: 1, alignItems: "center", justifyContent: 'center' }}>
+              <img src={aiishPic} alt="AIISH Logo" width={150}></img>
+            </div>
+            <br />
+            <br />
             <Typography variant="h5">
               <span style={{ fontWeight: 'bold' }}>Demographic Details</span>
             </Typography>
+            <br />
 
             <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
               <Typography variant="body1">
                 <span style={{ fontWeight: 'bold' }}>Case Number</span>
               </Typography>
               <Typography variant="body1">
-                {test.case_number}
+                : {test.case_number}
               </Typography>
             </Box>
 
@@ -97,7 +105,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>Case Name</span>
               </Typography>
               <Typography variant="body1">
-                {test.case_name}
+                : {test.case_name}
               </Typography>
             </Box>
 
@@ -106,7 +114,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>Age</span>
               </Typography>
               <Typography variant="body1">
-                {test.age}
+                : {test.age} years
               </Typography>
             </Box>
 
@@ -115,7 +123,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>Contact Number</span>
               </Typography>
               <Typography variant="body1">
-                {test.contact_number}
+                : {test.contact_number}
               </Typography>
             </Box>
 
@@ -124,16 +132,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>Email</span>
               </Typography>
               <Typography variant="body1">
-                {test.email}
-              </Typography>
-            </Box>
-
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
-              <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Martial Status</span>
-              </Typography>
-              <Typography variant="body1">
-                {test.martial_status}
+                : {test.email}
               </Typography>
             </Box>
 
@@ -142,7 +141,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>Occupation</span>
               </Typography>
               <Typography variant="body1">
-                {test.occupation}
+                : {test.occupation}
               </Typography>
             </Box>
 
@@ -151,7 +150,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>Education</span>
               </Typography>
               <Typography variant="body1">
-                {test.education}
+                : {test.education}
               </Typography>
             </Box>
 
@@ -160,7 +159,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>Address</span>
               </Typography>
               <Typography variant="body1">
-                {test.address}
+                : {test.address}
               </Typography>
             </Box>
 
@@ -169,7 +168,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>Duration</span>
               </Typography>
               <Typography variant="body1">
-                {test.duration}
+                : {test.duration} Months
               </Typography>
             </Box>
 
@@ -178,7 +177,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>model_type</span>
               </Typography>
               <Typography variant="body1">
-                {test.model_type}
+                : {test.model_type}
               </Typography>
             </Box>
 
@@ -187,7 +186,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>Nature</span>
               </Typography>
               <Typography variant="body1">
-                {test.nature}
+                : {test.nature}
               </Typography>
             </Box>
 
@@ -196,7 +195,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>Percentage of disfluencies in Spontaneous speech</span>
               </Typography>
               <Typography variant="body1">
-                _
+                : -
               </Typography>
             </Box>
 
@@ -205,7 +204,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>Percentage of disfluencies in Reading</span>
               </Typography>
               <Typography variant="body1">
-                _
+                : -
               </Typography>
             </Box>
 
@@ -214,7 +213,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>Overall percentage of disfluencies</span>
               </Typography>
               <Typography variant="body1">
-                _
+                : -
               </Typography>
             </Box>
 
@@ -223,7 +222,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>Total number of syllables uttered</span>
               </Typography>
               <Typography variant="body1">
-                {test.total_score}
+                : {test.total_score ?? "-"}
               </Typography>
             </Box>
 
@@ -232,7 +231,7 @@ export default function ViewTest() {
                 <span style={{ fontWeight: 'bold' }}>Doctor Email</span>
               </Typography>
               <Typography variant="body1">
-                {test.doctor}
+                : {test.doctor}
               </Typography>
             </Box>
 
@@ -244,24 +243,24 @@ export default function ViewTest() {
               <DisplayPassages passages={test.passages} />
             </Box>
           </div>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              minHeight="8vh"
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            minHeight="8vh"
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={printDocument}
             >
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={printDocument}
-              >
-                <Grid container direction="row" spacing={1} alignItems={'center'} justify={'center'} style={{ width: "100%" }}>
-                  <Grid item>
-                    Download Report
-                  </Grid>
+              <Grid container direction="row" spacing={1} alignItems={'center'} justify={'center'} style={{ width: "100%" }}>
+                <Grid item>
+                  Download Report
                 </Grid>
-              </Button>
-            </Box>
+              </Grid>
+            </Button>
+          </Box>
         </div>
       )}
     </Container>
