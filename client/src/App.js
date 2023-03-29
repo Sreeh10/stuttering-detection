@@ -9,12 +9,13 @@ import { Home as PatientHome } from "./components/pages/Patient/Home";
 import { Home as SuperAdminHome } from "./components/pages/SuperAdmin/Home";
 import ForgotPassword from "./components/pages/ForgotPassword";
 import ResetPassword from "./components/pages/ResetPassword";
+import ChangePassword from "./components/pages/ChangePassword";
 import Profile from "./components/pages/Profile";
 import NewTest from "./components/pages/Doctor/NewTest";
 import ViewTest from "./components/templates/ViewTest";
 import { Home as ViewUser } from "./components/templates/ViewUser";
 import Navbar from "./components/templates/Navbar";
-import {Edit as Edit } from "./components/pages/SuperAdmin/Edit"
+import { Edit as Edit } from "./components/pages/SuperAdmin/Edit"
 
 
 function App() {
@@ -32,11 +33,12 @@ function App() {
           <Route path="/superadmin" element={<SuperAdminHome />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/resetpassword/" element={<ResetPassword />} />
+          <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/newtest" element={<NewTest />} />
           <Route path="/test/:id" element={<ViewTest />} />
-          <Route path="/superadmin/edit" element={<Edit/>}/>
-          <Route path="user/:id" element = {<ViewUser/>}/>
+          <Route path="/superadmin/edit" element={<Edit />} />
+          <Route path="user/:id" element={<ViewUser />} />
         </Routes>
       </Router>
     </div>

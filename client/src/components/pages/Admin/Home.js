@@ -7,6 +7,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
+// import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -22,7 +23,6 @@ import PropTypes from "prop-types";
 import { Card } from "@mui/material";
 // import Typography from '@mui/material/Typography';
 import Box from "@mui/material/Box";
-import styled from "styled-components";
 
 export const theme = createTheme();
 
@@ -35,12 +35,11 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      style={{ backgroundColor: "pink" }}
       {...other}
     >
       {value === index && (
-        <Box sx={{ marginTop: 2, padding: 2 }}>
-          {children}
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
         </Box>
       )}
     </div>
@@ -55,8 +54,8 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
   return {
-    id: `tab-${index}`,
-    "aria-controls": `tabpanel-${index}`,
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
@@ -74,38 +73,50 @@ export function Home() {
     setUser(user);
     console.log("user", user);
   }, []);
+
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="lg">
+      <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <Box sx={{ marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <Typography component="h1" variant="h4" sx={{ marginBottom: 2, fontWeight: 'bold', color: theme.palette.primary.main }}>
-            Welcome to your dashboard, {user.username}!
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Welcome to your dashboard, {user.username} !
           </Typography>
-          <Typography component="h2" variant="h5" sx={{ marginBottom: 4, color: theme.palette.secondary.main }}>
+        </Box>
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+          }}
+        >
+          <Typography component="h1" variant="h5">
             You are logged in as ADMIN.
           </Typography>
-          <Box sx={{ width: "100%" }}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider", marginBottom: 2 }}>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label="basic tabs example"
-                centered
-                sx={{ backgroundColor: theme.palette.background.paper }}
-              >
-                <Tab label="Doctors" {...a11yProps(0)} sx={{ fontWeight: 'bold' }} />
-                <Tab label="Patients" {...a11yProps(1)} sx={{ fontWeight: 'bold' }} />
-              </Tabs>
-            </Box>
-            <TabPanel value={value} index={0}>
-              <DoctorsList />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <PatientsList />
-            </TabPanel>
-          </Box>
         </Box>
+        <Box sx={{ width: "100%" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label="Doctors" {...a11yProps(0)} />
+              <Tab label="Patients" {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+            <DoctorsList />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <PatientsList />
+          </TabPanel>
+        </Box>
+        {/* <DoctorsList/> */}
       </Container>
     </ThemeProvider>
   );
@@ -136,13 +147,14 @@ export function DoctorsList() {
   }, []);
 
   return (
-    <Container component="main" maxWidth="lg">
+    <Container component="main" maxWidth="sm">
+      {/* <div> */}
       {doctors.map((test) => (
-        <div key={test.id} onClick={() => window.location.href = `/user/${test.id}`} style={{ cursor: "pointer" }}>
-          <UserCard test={test} />
-        </div>
+        // console.log(test.id)
+        <UserCard key={test.id} test={test} />
       ))}
     </Container>
+    // </div>
   );
 }
 
@@ -170,32 +182,40 @@ export function PatientsList() {
   }, []);
 
   return (
-    <Container component="main" maxWidth="lg">
+    <Container component="main" maxWidth="sm">
+      {/* <div> */}
       {patients.map((test) => (
-        <div key={test.id} onClick={() => window.location.href = `/user/${test.id}`} style={{ cursor: "pointer" }}>
-          <UserCard test={test} />
-        </div>
+        // console.log(test.id)
+        <UserCard key={test.id} test={test} />
       ))}
     </Container>
+    // </div>
   );
-  
 }
 
 const UserCard = ({ test }) => {
+  console.log(test);
   return (
-    <Card sx={{marginTop:2,display:"flex",flexDirection:"row",alignItems:"center",padding:"1rem",boxShadow:"0px 4px 10px rgba(0, 0, 0, 0.5)",borderRadius:"10px"}} >
-  <Grid container spacing={2} alignItems="center">
-    <Grid item xs={6}>
-      <Typography variant="h5" component="h2" textAlign="center" >
-        {test.username}
+    <Card
+      sx={{
+        marginTop: 8,
+        display: "flex",
+        flexDirection: "row",
+      }}
+      onClick={() => (window.location.href = `/user/${test.id}`)}
+    >
+      {/* <Grid> */}
+      <Grid item xs={8}>
+        <Typography variant="h5" component="h2">
+          {test.username}
         </Typography>
-    </Grid>
-    <Grid item xs={6}>
-    <Typography variant="body" component="p" textAlign="center" >
-        {test.email}
-      </Typography>
-    </Grid>
-  </Grid>
-  </Card>
+      </Grid>
+      <Grid item xs={8}>
+        <Typography variant="body2" component="p">
+          {test.email}
+        </Typography>
+      </Grid>
+    </Card>
+    // </Grid>
   );
 };

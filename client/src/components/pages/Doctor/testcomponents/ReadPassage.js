@@ -20,6 +20,7 @@ import { LoremIpsum } from "react-lorem-ipsum";
 import { Divider } from "@mui/material";
 import axios from "axios";
 import RecordRTC, { invokeSaveAsDialog } from "recordrtc";
+import './record.css'
 
 export default function ReadPassage({
   nextStep,
@@ -129,6 +130,7 @@ export function NewPassage({ passage, index, deletePassage, updatePassage }) {
   const [blob, setBlob] = React.useState(passage.src || null);
   const refAudio = React.useRef(null);
   const recorderRef = React.useRef(null);
+  const [isRecording, setIsRecording] = React.useState(false);
 
   const handleRecording = async () => {
     try {
@@ -143,10 +145,11 @@ export function NewPassage({ passage, index, deletePassage, updatePassage }) {
       console.log(err);
     }
     console.log("curr", recorderRef.current);
-
+    setIsRecording(true);
     recorderRef.current.startRecording();
   };
   const handleStop = () => {
+    setIsRecording(false);
     recorderRef.current.stopRecording(() => {
       setBlob(recorderRef.current.getBlob());
       refAudio.current.src = URL.createObjectURL(recorderRef.current.getBlob());
@@ -185,7 +188,7 @@ export function NewPassage({ passage, index, deletePassage, updatePassage }) {
         </Typography>
 
         <Grid item xs={12}>
-          <Button onClick={handleRecording}>Record</Button>
+          <Button className={isRecording ? 'record pulse' : ''} onClick={handleRecording}>Record</Button>
           <Button onClick={handleStop}>Stop</Button>
           <Button onClick={handlePause}> Pause </Button>
           <Button onClick={handleResume}> Resume </Button>

@@ -171,33 +171,36 @@ export default function UserDetails({
         </Grid>
 
         <Grid item xs={6}>
-          <InputLabel id="martial-status-label">Martial Status</InputLabel>{" "}
+          {/* <InputLabel id="martial-status-label">Martial Status</InputLabel>{" "} */}
+          <InputLabel id="family-history-label">Family History</InputLabel>{" "}
           <Select
             variant="outlined"
             fullWidth
             required
-            labelId="martial-status-label"
+            labelId="family-history-label"
             defaultValue={""}
-            value={values.martial_status}
-            {...register("martial_status", {
+            value={values.family_history}
+            {...register("family_history", {
               required: true,
               validate: {
                 notEmpty: (value) => value !== "" || "Please select",
               },
-              onChange: handleChange("martial_status"),
-              value: values.martial_status,
+              onChange: handleChange("family_history"),
+              value: values.family_history,
             })}
-            error={formState.errors.martial_status?.message ? true : false}
-            helpertext={formState.errors.martial_status?.message}
+            error={formState.errors.family_history?.message ? true : false}
+            helpertext={formState.errors.family_history?.message}
           >
             <MenuItem value=""> </MenuItem>
-            <MenuItem value={"single"}>Single</MenuItem>
+            <MenuItem value={"yes"}>Yes</MenuItem>
+            <MenuItem value={"No"}>No</MenuItem>
+            {/* <MenuItem value={"single"}>Single</MenuItem>
             <MenuItem value={"married"}>Married</MenuItem>
             <MenuItem value={"divorced"}>Divorced</MenuItem>
             <MenuItem value={"widowed"}>Widowed</MenuItem>
             <MenuItem value={"preffered not to say"}>
               Prefered not to say
-            </MenuItem>
+            </MenuItem> */}
           </Select>
         </Grid>
         <Grid item xs={6}>
@@ -280,31 +283,35 @@ export default function UserDetails({
             <MenuItem value={6}>More than 6 Months</MenuItem>
           </Select>
         </Grid>
+
+        {/* adding the below code for nature of the problem */}
         <Grid item xs={6}>
-          <InputLabel id="model_type-label">model_type</InputLabel>{" "}
+          <InputLabel id="nature-label">Nature of the Problem</InputLabel>{" "}
           <Select
             variant="outlined"
             fullWidth
-            labelId="model_type-label"
+            labelId="nature-label"
             defaultValue={""}
-            value={values.model_type}
-            {...register("model_type", {
+            value={values.nature}
+            {...register("nature", {
               required: true,
               validate: {
-                notEmpty: (value) => value !== "" || "Please select model_type",
+                notEmpty: (value) => value !== "" || "Please select nature",
               },
-              onChange: handleChange("model_type"),
-              value: values.model_type,
+              onChange: handleChange("nature"),
+              value: values.nature,
             })}
-            helpertext={formState.errors.model_type?.message}
+            helpertext={formState.errors.nature?.message}
             error={formState.errors.role ? true : false}
           >
-            {/* <MenuItem value=""> </MenuItem> */}
-            <MenuItem value="ML">ML</MenuItem>
-            <MenuItem value="SP">SP</MenuItem>
+            <MenuItem value=""> </MenuItem>
+            <MenuItem value={0}>Progressive</MenuItem>
+            <MenuItem value={1}>Static</MenuItem>
+            <MenuItem value={2}>Fluctuating</MenuItem>
           </Select>
         </Grid>
-        <Grid item xs={6}>
+
+        {/* <Grid item xs={6}>
           <TextField
             required
             id="nature"
@@ -320,7 +327,8 @@ export default function UserDetails({
             helpertext={formState.errors.nature?.message}
             error={formState.errors.nature?.message ? true : false}
           />
-        </Grid>
+        </Grid> */}
+
         <Grid item xs={6}>
           <Button
             variant="contained"

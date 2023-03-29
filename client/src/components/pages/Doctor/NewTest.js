@@ -26,23 +26,23 @@ export const theme = createTheme();
 
 export default function NewTest() {
   const [values, setValues] = React.useState({
-    case_name: "newcase",
-    case_number: "1",
-    age: "18",
+    case_name: "",
+    case_number: "",
+    age: "",
     // gender: "",
-    contact_number: "0000000000",
-    email: "example@example.com",
+    contact_number: "",
+    email: "",
     // city: "",
     // state: "",
     // pincode: "",
     // place: "",
-    martial_status: "single",
-    occupation: "teacher",
-    education: "Bcom",
-    address: "street/city/state",
-    duration: 3 ,
-    model_type : "ML",
-    nature: "repetitive",
+    // martial_status: "",
+    family_history: "",
+    occupation: "",
+    education: "",
+    address: "",
+    duration: "",
+    nature: "",
     // history: "",
     questions: [],
     passages: [],
@@ -122,12 +122,12 @@ export default function NewTest() {
     formdata.append("age", values.age);
     formdata.append("contact_number", values.contact_number);
     formdata.append("email", values.email);
-    formdata.append("martial_status", values.martial_status);
+    // formdata.append("martial_status", values.martial_status);
+    formdata.append("family_history", values.family_history); // added line
     formdata.append("occupation", values.occupation);
     formdata.append("education", values.education);
     formdata.append("address", values.address);
     formdata.append("duration", values.duration);
-    formdata.append("model_type", values.model_type);
     formdata.append("nature", values.nature);
     formdata.append("questions", JSON.stringify(values.questions));
     formdata.append("passages", JSON.stringify(values.passages));

@@ -21,10 +21,8 @@ import { Divider } from "@mui/material";
 import axios from "axios";
 import RecordRTC, { invokeSaveAsDialog } from "recordrtc";
 import { useParams } from "react-router-dom";
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
-import html2pdf from 'html2pdf.js';
-import aiishPic from "../images/AIISH_LoGO.jpeg";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 export default function ViewTest() {
   const { id } = useParams();
@@ -48,24 +46,28 @@ export default function ViewTest() {
   }, [id]);
 
   const printDocument = () => {
-    const input = document.getElementById('divToPrint');
-    const opt = {
-      margin: 1,
-      filename: 'test_report.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      // html2canvas: { scale: 2.5 },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
-    };
+    const input = document.getElementById("divToPrint");
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      var imgWidth = 210;
+      var pageHeight = 295;
+      var imgHeight = (canvas.height * imgWidth) / canvas.width;
+      var heightLeft = imgHeight;
 
-    // New Promise-based usage:
-    html2pdf()
-      .set(opt)
-      .from(input)
-      .save();
+      var doc = new jsPDF("p", "mm");
+      var position = 0;
 
-    // Old monolithic-style usage:
-    // html2pdf(input, opt);
+      doc.addImage(imgData, "PNG", 1, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        doc.addPage();
+        doc.addImage(imgData, "PNG", 1, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+      doc.save("test_report.pdf");
+    });
   };
 
   return (
@@ -79,160 +81,126 @@ export default function ViewTest() {
         </div>
       ) : (
         <div>
-          <br />
           <div id="divToPrint">
-            <div style={{ display: 'flex', flex: 1, alignItems: "center", justifyContent: 'center' }}>
-              <img src={aiishPic} alt="AIISH Logo" width={150}></img>
-            </div>
-            <br />
-            <br />
             <Typography variant="h5">
-              <span style={{ fontWeight: 'bold' }}>Demographic Details</span>
+              <span style={{ fontWeight: "bold" }}>Demographic Details</span>
             </Typography>
-            <br />
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
               <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Case Number</span>
+                <span style={{ fontWeight: "bold" }}>Case Number</span>
               </Typography>
-              <Typography variant="body1">
-                : {test.case_number}
-              </Typography>
+              <Typography variant="body1">{test.case_number}</Typography>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
               <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Case Name</span>
+                <span style={{ fontWeight: "bold" }}>Case Name</span>
               </Typography>
-              <Typography variant="body1">
-                : {test.case_name}
-              </Typography>
+              <Typography variant="body1">{test.case_name}</Typography>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
               <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Age</span>
+                <span style={{ fontWeight: "bold" }}>Age</span>
               </Typography>
-              <Typography variant="body1">
-                : {test.age} years
-              </Typography>
+              <Typography variant="body1">{test.age}</Typography>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
               <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Contact Number</span>
+                <span style={{ fontWeight: "bold" }}>Contact Number</span>
               </Typography>
-              <Typography variant="body1">
-                : {test.contact_number}
-              </Typography>
+              <Typography variant="body1">{test.contact_number}</Typography>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
               <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Email</span>
+                <span style={{ fontWeight: "bold" }}>Email</span>
               </Typography>
-              <Typography variant="body1">
-                : {test.email}
-              </Typography>
+              <Typography variant="body1">{test.email}</Typography>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
               <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Occupation</span>
+                <span style={{ fontWeight: "bold" }}>Family History</span>
               </Typography>
-              <Typography variant="body1">
-                : {test.occupation}
-              </Typography>
+              <Typography variant="body1">{test.family_history}</Typography>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
               <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Education</span>
+                <span style={{ fontWeight: "bold" }}>Occupation</span>
               </Typography>
-              <Typography variant="body1">
-                : {test.education}
-              </Typography>
+              <Typography variant="body1">{test.occupation}</Typography>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
               <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Address</span>
+                <span style={{ fontWeight: "bold" }}>Education</span>
               </Typography>
-              <Typography variant="body1">
-                : {test.address}
-              </Typography>
+              <Typography variant="body1">{test.education}</Typography>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
               <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Duration</span>
+                <span style={{ fontWeight: "bold" }}>Address</span>
               </Typography>
-              <Typography variant="body1">
-                : {test.duration} Months
-              </Typography>
+              <Typography variant="body1">{test.address}</Typography>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
               <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>model_type</span>
+                <span style={{ fontWeight: "bold" }}>Duration</span>
               </Typography>
-              <Typography variant="body1">
-                : {test.model_type}
-              </Typography>
+              <Typography variant="body1">{test.duration}</Typography>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
               <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Nature</span>
+                <span style={{ fontWeight: "bold" }}>Nature</span>
               </Typography>
-              <Typography variant="body1">
-                : {test.nature}
-              </Typography>
+              <Typography variant="body1">{test.nature}</Typography>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
               <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Percentage of disfluencies in Spontaneous speech</span>
+                <span style={{ fontWeight: "bold" }}>Total Score</span>
               </Typography>
-              <Typography variant="body1">
-                : -
-              </Typography>
+              <Typography variant="body1">{test.total_score}</Typography>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
               <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Percentage of disfluencies in Reading</span>
+                <span style={{ fontWeight: "bold" }}>Doctor Email</span>
               </Typography>
-              <Typography variant="body1">
-                : -
-              </Typography>
-            </Box>
-
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
-              <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Overall percentage of disfluencies</span>
-              </Typography>
-              <Typography variant="body1">
-                : -
-              </Typography>
-            </Box>
-
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
-              <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Total number of syllables uttered</span>
-              </Typography>
-              <Typography variant="body1">
-                : {test.total_score ?? "-"}
-              </Typography>
-            </Box>
-
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
-              <Typography variant="body1">
-                <span style={{ fontWeight: 'bold' }}>Doctor Email</span>
-              </Typography>
-              <Typography variant="body1">
-                : {test.doctor}
-              </Typography>
+              <Typography variant="body1">{test.doctor}</Typography>
             </Box>
 
             <Box>
@@ -243,24 +211,11 @@ export default function ViewTest() {
               <DisplayPassages passages={test.passages} />
             </Box>
           </div>
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            minHeight="8vh"
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={printDocument}
-            >
-              <Grid container direction="row" spacing={1} alignItems={'center'} justify={'center'} style={{ width: "100%" }}>
-                <Grid item>
-                  Download Report
-                </Grid>
-              </Grid>
+          <Grid item xs={8}>
+            <Button variant="contained" color="primary" onClick={printDocument}>
+              Download Report
             </Button>
-          </Box>
+          </Grid>
         </div>
       )}
     </Container>
@@ -272,7 +227,7 @@ const DisplayQuestions = ({ questions }) => {
     <div>
       <Typography component="h1" variant="h5">
         {" "}
-        <span style={{ fontWeight: 'bold' }}>Questions</span>{" "}
+        <span style={{ fontWeight: "bold" }}>Questions</span>{" "}
       </Typography>
 
       {questions.map((question, index) => {
@@ -296,6 +251,9 @@ const DisplayQuestions = ({ questions }) => {
 };
 
 const DisplayQuestion = ({ question }) => {
+  const score = question.score[0].map((_, colIndex) =>
+    question.score.map((row) => row[colIndex])
+  );
   return (
     <div>
       <Typography component="h1" variant="h5">
@@ -307,14 +265,34 @@ const DisplayQuestion = ({ question }) => {
       </audio>
 
       <Typography variant="body1">
-        <span style={{ fontWeight: 'bold' }}>Total number of syllables</span>&nbsp;&nbsp;&nbsp;{question.score}
+        <p style={{ fontWeight: "bold" }}>Score</p>
       </Typography>
-      <Typography variant="body1">
-        <span style={{ fontWeight: 'bold' }}>Clean syllables</span>&nbsp;&nbsp;&nbsp;_
+      <Typography variant="body2">
+        <span style={{ fontWeight: "bold" }}>Syllable count:</span>
+        &nbsp;&nbsp;&nbsp;
+        {score[0].length}{" "}
+        <table>
+          <tr>
+            <td style={{ fontWeight: "bold" }}>Syllable index:</td>
+            {score[0].map((item, index) => {
+              return <td key={index}>{index + 1}&nbsp;&nbsp;&nbsp;</td>;
+            })}
+          </tr>
+          <tr>
+            <td style={{ fontWeight: "bold" }}>Ones:</td>
+            {score[0].map((item, index) => {
+              return <td key={index}>{item}</td>;
+            })}
+          </tr>
+          <tr>
+            <td style={{ fontWeight: "bold" }}>Zeros:</td>
+            {score[1].map((item, index) => {
+              return <td key={index}>{item}</td>;
+            })}
+          </tr>
+        </table>
       </Typography>
-      <Typography variant="body1">
-        <span style={{ fontWeight: 'bold' }}>Stuttered syllables</span>&nbsp;&nbsp;&nbsp;_
-      </Typography>
+
       <br />
 
       <Divider />
@@ -328,7 +306,7 @@ const DisplayPassages = ({ passages }) => {
     <div>
       <Typography component="h1" variant="h5">
         {" "}
-        <span style={{ fontWeight: 'bold' }}>Passages</span>{" "}
+        <span style={{ fontWeight: "bold" }}>Passages</span>{" "}
       </Typography>
       {passages.map((passage, index) => {
         return (
@@ -351,6 +329,13 @@ const DisplayPassages = ({ passages }) => {
 };
 
 const DisplayPassage = ({ passage }) => {
+  // transpose the passage.score array
+  const score = passage.score[0].map((_, colIndex) =>
+    passage.score.map((row) => row[colIndex])
+  );
+
+  console.log(score);
+
   return (
     <div>
       <Typography component="h1" variant="h5">
@@ -361,15 +346,33 @@ const DisplayPassage = ({ passage }) => {
       </audio>
 
       <Typography variant="body1">
-        <span style={{ fontWeight: 'bold' }}>Total number of syllables</span>&nbsp;&nbsp;&nbsp;{passage.score}
+        <p style={{ fontWeight: "bold" }}>Score</p>
       </Typography>
-      <Typography variant="body1">
-        <span style={{ fontWeight: 'bold' }}>Clean syllables</span>&nbsp;&nbsp;&nbsp;_
+      <Typography variant="body2">
+        <span style={{ fontWeight: "bold" }}>Syllable count:</span>
+        &nbsp;&nbsp;&nbsp;
+        {score[0].length}{" "}
+        <table>
+          <tr>
+            <td style={{ fontWeight: "bold" }}>Syllable index:</td>
+            {score[0].map((item, index) => {
+              return <td key={index}>{index + 1}&nbsp;&nbsp;&nbsp;</td>;
+            })}
+          </tr>
+          <tr>
+            <td style={{ fontWeight: "bold" }}>Ones:</td>
+            {score[0].map((item, index) => {
+              return <td key={index}>{item}</td>;
+            })}
+          </tr>
+          <tr>
+            <td style={{ fontWeight: "bold" }}>Zeros:</td>
+            {score[1].map((item, index) => {
+              return <td key={index}>{item}</td>;
+            })}
+          </tr>
+        </table>
       </Typography>
-      <Typography variant="body1">
-        <span style={{ fontWeight: 'bold' }}>Stuttered syllables</span>&nbsp;&nbsp;&nbsp;_
-      </Typography>
-      <br />
 
       <Divider />
       <br />

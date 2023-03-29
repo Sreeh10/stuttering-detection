@@ -20,17 +20,14 @@ import axios from "axios";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import PropTypes from "prop-types";
-import { Card,CardContent } from "@mui/material";
+import { Card } from "@mui/material";
 // import Typography from '@mui/material/Typography';
 import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
 import Modal from "@mui/material/Modal";
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-
-
 
 export const theme = createTheme();
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -40,18 +37,16 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      style={{ backgroundColor: "pink" }}
       {...other}
     >
       {value === index && (
-        <Box sx={{ marginTop: 2, padding: 2 }}>
-          {children}
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
         </Box>
       )}
     </div>
   );
 }
-
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -61,8 +56,8 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
   return {
-    id: `tab-${index}`,
-    "aria-controls": `tabpanel-${index}`,
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
@@ -80,42 +75,53 @@ export function Home() {
     setUser(user);
     console.log("user", user);
   }, []);
+
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="lg">
+      <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <Box sx={{ marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <Typography component="h1" variant="h4" sx={{ marginBottom: 2, fontWeight: 'bold', color: theme.palette.primary.main }}>
-            Welcome to your dashboard, {user.username}!
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Welcome to your dashboard, {user.username} !
           </Typography>
-          <Typography component="h2" variant="h5" sx={{ marginBottom: 4, color: theme.palette.secondary.main }}>
+        </Box>
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+          }}
+        >
+          <Typography component="h1" variant="h5">
             You are logged in as SUPERADMIN.
           </Typography>
-          <Box sx={{ width: "100%" }}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider", marginBottom: 2 }}>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label="basic tabs example"
-                centered
-                sx={{ backgroundColor: theme.palette.background.paper }}
-              >
-                <Tab label="Doctors" {...a11yProps(0)} sx={{ fontWeight: 'bold' }} />
-                <Tab label="Patients" {...a11yProps(1)} sx={{ fontWeight: 'bold' }} />
-              </Tabs>
-            </Box>
-            <TabPanel value={value} index={0}>
-              <DoctorsList />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <PatientsList />
-            </TabPanel>
-          </Box>
         </Box>
+        <Box sx={{ width: "100%" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label="Doctors" {...a11yProps(0)} />
+              <Tab label="Patients" {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+            <DoctorsList />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <PatientsList />
+          </TabPanel>
+        </Box>
+        {/* <DoctorsList/> */}
       </Container>
     </ThemeProvider>
   );
-
 }
 
 export function DoctorsList() {
@@ -138,11 +144,14 @@ export function DoctorsList() {
   }, []);
 
   return (
-    <Container component="main" maxWidth="lg">
+    <Container component="main" maxWidth="sm">
+      {/* <div> */}
       {doctors.map((test) => (
+        // console.log(test.id)
         <UserCard key={test.id} test={test} />
       ))}
     </Container>
+    // </div>
   );
 }
 
@@ -176,11 +185,11 @@ export function PatientsList() {
   }, []);
 
   return (
-    <Container component="main" maxWidth="lg">
+    <Container component="main" maxWidth="sm">
       {/* <div> */}
       {patients.map((test) => (
         <div>
-          <UserCard key={test.id} test={test}  />
+          <UserCard key={test.id} test={test} />
           <div id="butt"></div>
         </div>
       ))}
@@ -268,85 +277,84 @@ const UserCard = ({ test }) => {
         console.log(err);
       });
   }
-
-  return ( 
-    <Card sx={{marginTop:2,display:"flex",flexDirection:"row",alignItems:"center",padding:"1rem",boxShadow:"0px 4px 10px rgba(0, 0, 0, 0.5)",borderRadius:"10px"}} >
-  <Grid container spacing={2} alignItems="center">
-  <Grid item xs={6}>
-    <Typography variant="h5" component="h2" textAlign="center" >
-      {test.username}
-      <IconButton size="small" onClick={handleOpen} sx={{ bgcolor: "#e0e0e0", ml: "0.5rem" }}>
-        <EditIcon sx={{ color: "blue" }} />
-      </IconButton>
-    </Typography>
-  </Grid>
-  <Grid item xs={5}>
-    <Typography variant="body" component="p" textAlign="center">
-      {test.email}
-      <IconButton size="small" onClick={handleOpen2} sx={{ bgcolor: "#e0e0e0", ml: "0.5rem" }}>
-        <EditIcon sx={{ color: "blue" }} />
-      </IconButton>
-    </Typography>
-  </Grid>
-</Grid>
-
-<Modal open={open} onClose={handleClose} aria-labelledby="modal-title" aria-describedby="modal-description">
-  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-    <Card sx={{ width: 400 }}>
-      <CardContent>
-        <Typography id="modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-          Edit Username
+  return (
+    <Card
+      sx={{
+        marginTop: 8,
+        display: "flex",
+        flexDirection: "row",
+      }}
+    >
+      {/* <Grid> */}
+      <Grid item xs={6}>
+        <Typography variant="h5" component="h2">
+          {test.username}
+          <Button onClick={handleOpen}>
+            <EditIcon />
+          </Button>
         </Typography>
-        <TextField
-          id="standard-basic"
-          label="Username"
-          variant="filled"
-          fullWidth
-          value={textInput}
-          onChange={handleTextInputChange}
-          sx={{ mb: 2 }}
-        />
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button variant="contained" onClick={handleClose} sx={{ borderRadius: '20px', py: 1, px: 3 }}>
-            Cancel
+      </Grid>
+      <Grid item xs={6}>
+        <Typography variant="body2" component="p">
+          {test.email}
+          <Button onClick={handleOpen2}>
+            <EditIcon />
           </Button>
-          <Button variant="contained" color="primary" onClick={() => { edit_name(test.username); handleClose(); }} sx={{ borderRadius: '20px', py: 1, px: 3 }}>
-            Save
-          </Button>
-        </Box>
-      </CardContent>
-    </Card>
-  </Box>
-</Modal>
-  
-  <Modal open={open2} onClose={handleClose2} aria-labelledby="modal-title" aria-describedby="modal-description">
-  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-    <Card sx={{ width: 400 }}>
-      <CardContent>
-        <Typography id="modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-          Edit Username
         </Typography>
-        <TextField
-          id="standard-basic"
-          label="Email"
-          variant="filled"
-          fullWidth
-          value={textInput2}
-          onChange={handleTextInputChange2}
-          sx={{ mb: 2 }}
-        />
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button variant="contained" onClick={handleClose2} sx={{ borderRadius: '20px', py: 1, px: 3 }}>
-            Cancel
-          </Button>
-          <Button variant="contained" color="primary" onClick={() => { edit_email(test.email); handleClose2(); }} sx={{ borderRadius: '20px', py: 1, px: 3 }}>
-            Save
-          </Button>
+      </Grid>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box style={{ position: "absolute", left: "40%", top: "40%" }}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            <TextField
+              id="standard-basic"
+              label="Standard"
+              variant="standard"
+              value={textInput}
+              onChange={handleTextInputChange}
+            />
+            <Button
+              onClick={() => {
+                edit_name(test.username);
+                handleClose();
+              }}
+            >
+              OK
+            </Button>
+          </Typography>
         </Box>
-      </CardContent>
+      </Modal>
+      <Modal
+        open={open2}
+        onClose={handleClose2}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box style={{ position: "absolute", left: "40%", top: "40%" }}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            <TextField
+              id="standard-basic"
+              label="Standard"
+              variant="standard"
+              value={textInput2}
+              onChange={handleTextInputChange2}
+            />
+            <Button
+              onClick={() => {
+                edit_email(test.email);
+                handleClose2();
+              }}
+            >
+              OK
+            </Button>
+          </Typography>
+        </Box>
+      </Modal>
     </Card>
-  </Box>
-</Modal>
-</Card>
-  );  
+    // </Grid>
+  );
 };

@@ -22,6 +22,10 @@ import { Input, IconButton, InputAdornment } from "@mui/material";
 const theme = createTheme();
 
 export default function Profile() {
+
+  const userData = JSON.parse(localStorage.getItem("user"))
+  console.log(userData)
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -46,8 +50,19 @@ export default function Profile() {
             pauseOnHover
           />
           <Typography component="h1" variant="h5">
-            Profile
+            Your Profile
           </Typography>
+          <section>
+            <p>Username: {userData["username"]}</p>
+            <p>Email: {userData["email"]}</p>
+            {/* Add a button to change the password of the user */}
+            {/* <Button onClick={() => {
+              // Redirect to change password page
+              window.location.href = "/change-password"
+            }} >Change password</Button> */}
+            {/* <button>Change Password</button> */}
+            {/* <p>Password: {userData["password"]}</p> */}
+          </section>
         </Box>
       </Container>
     </ThemeProvider>
