@@ -5,8 +5,8 @@
 
 Using docker based mongodb for ease of setup and deployment.
 
-```bash
-docker-compose run --service-ports -d mongodb
+```bashdocker-compose run --service-ports -d mongodb
+
 ```
 
 ### Server

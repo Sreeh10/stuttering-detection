@@ -142,7 +142,7 @@ export default function ViewTest() {
               <Typography variant="body1">
                 <span style={{ fontWeight: "bold" }}>Family History</span>
               </Typography>
-              <Typography variant="body1">{test.family_history}</Typography>
+              <Typography variant="body1">: {test.family_history}</Typography>
             </Box>
 
             <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
@@ -199,32 +199,32 @@ export default function ViewTest() {
               </Typography>
             </Box>
 
-            {/* <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
               <Typography variant="body1">
                 <span style={{ fontWeight: 'bold' }}>Percentage of disfluencies in Spontaneous speech</span>
               </Typography>
               <Typography variant="body1">
                 : -
               </Typography>
-            </Box> */}
+            </Box>
 
-            {/* <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
               <Typography variant="body1">
                 <span style={{ fontWeight: 'bold' }}>Percentage of disfluencies in Reading</span>
               </Typography>
               <Typography variant="body1">
                 : -
               </Typography>
-            </Box> */}
+            </Box>
 
-            {/* <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
               <Typography variant="body1">
                 <span style={{ fontWeight: 'bold' }}>Overall percentage of disfluencies</span>
               </Typography>
               <Typography variant="body1">
                 : -
               </Typography>
-            </Box> */}
+            </Box>
 
             <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
               <Typography variant="body1">
@@ -281,7 +281,7 @@ const DisplayQuestions = ({ questions }) => {
     <div>
       <Typography component="h1" variant="h5">
         {" "}
-        <span style={{ fontWeight: "bold" }}>Questions</span>{" "}
+        <span style={{ fontWeight: 'bold' }}>Questions</span>{" "}
       </Typography>
 
       {questions.map((question, index) => {
@@ -305,9 +305,6 @@ const DisplayQuestions = ({ questions }) => {
 };
 
 const DisplayQuestion = ({ question }) => {
-  const score = question.score[0].map((_, colIndex) =>
-    question.score.map((row) => row[colIndex])
-  );
   return (
     <div>
       <Typography component="h1" variant="h5">
@@ -319,34 +316,14 @@ const DisplayQuestion = ({ question }) => {
       </audio>
 
       <Typography variant="body1">
-        <p style={{ fontWeight: "bold" }}>Score</p>
+        <span style={{ fontWeight: 'bold' }}>Total number of syllables</span>&nbsp;&nbsp;&nbsp;{question.score}
       </Typography>
-      <Typography variant="body2">
-        <span style={{ fontWeight: "bold" }}>Syllable count:</span>
-        &nbsp;&nbsp;&nbsp;
-        {score[0].length}{" "}
-        <table>
-          <tr>
-            <td style={{ fontWeight: "bold" }}>Syllable index:</td>
-            {score[0].map((item, index) => {
-              return <td key={index}>{index + 1}&nbsp;&nbsp;&nbsp;</td>;
-            })}
-          </tr>
-          <tr>
-            <td style={{ fontWeight: "bold" }}>Ones:</td>
-            {score[0].map((item, index) => {
-              return <td key={index}>{item}</td>;
-            })}
-          </tr>
-          <tr>
-            <td style={{ fontWeight: "bold" }}>Zeros:</td>
-            {score[1].map((item, index) => {
-              return <td key={index}>{item}</td>;
-            })}
-          </tr>
-        </table>
+      <Typography variant="body1">
+        <span style={{ fontWeight: 'bold' }}>Clean syllables</span>&nbsp;&nbsp;&nbsp;_
       </Typography>
-
+      <Typography variant="body1">
+        <span style={{ fontWeight: 'bold' }}>Stuttered syllables</span>&nbsp;&nbsp;&nbsp;_
+      </Typography>
       <br />
 
       <Divider />
@@ -360,7 +337,7 @@ const DisplayPassages = ({ passages }) => {
     <div>
       <Typography component="h1" variant="h5">
         {" "}
-        <span style={{ fontWeight: "bold" }}>Passages</span>{" "}
+        <span style={{ fontWeight: 'bold' }}>Passages</span>{" "}
       </Typography>
       {passages.map((passage, index) => {
         return (
@@ -383,13 +360,6 @@ const DisplayPassages = ({ passages }) => {
 };
 
 const DisplayPassage = ({ passage }) => {
-  // transpose the passage.score array
-  const score = passage.score[0].map((_, colIndex) =>
-    passage.score.map((row) => row[colIndex])
-  );
-
-  console.log(score);
-
   return (
     <div>
       <Typography component="h1" variant="h5">
@@ -400,33 +370,15 @@ const DisplayPassage = ({ passage }) => {
       </audio>
 
       <Typography variant="body1">
-        <p style={{ fontWeight: "bold" }}>Score</p>
+        <span style={{ fontWeight: 'bold' }}>Total number of syllables</span>&nbsp;&nbsp;&nbsp;{passage.score}
       </Typography>
-      <Typography variant="body2">
-        <span style={{ fontWeight: "bold" }}>Syllable count:</span>
-        &nbsp;&nbsp;&nbsp;
-        {score[0].length}{" "}
-        <table>
-          <tr>
-            <td style={{ fontWeight: "bold" }}>Syllable index:</td>
-            {score[0].map((item, index) => {
-              return <td key={index}>{index + 1}&nbsp;&nbsp;&nbsp;</td>;
-            })}
-          </tr>
-          <tr>
-            <td style={{ fontWeight: "bold" }}>Ones:</td>
-            {score[0].map((item, index) => {
-              return <td key={index}>{item}</td>;
-            })}
-          </tr>
-          <tr>
-            <td style={{ fontWeight: "bold" }}>Zeros:</td>
-            {score[1].map((item, index) => {
-              return <td key={index}>{item}</td>;
-            })}
-          </tr>
-        </table>
+      <Typography variant="body1">
+        <span style={{ fontWeight: 'bold' }}>Clean syllables</span>&nbsp;&nbsp;&nbsp;_
       </Typography>
+      <Typography variant="body1">
+        <span style={{ fontWeight: 'bold' }}>Stuttered syllables</span>&nbsp;&nbsp;&nbsp;_
+      </Typography>
+      <br />
 
       <Divider />
       <br />

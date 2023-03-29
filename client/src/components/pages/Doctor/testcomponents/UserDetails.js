@@ -330,9 +330,9 @@ export default function UserDetails({
             error={formState.errors.role ? true : false}
           >
             <MenuItem value=""> </MenuItem>
-            <MenuItem value={0}>Progressive</MenuItem>
-            <MenuItem value={1}>Static</MenuItem>
-            <MenuItem value={2}>Fluctuating</MenuItem>
+            <MenuItem value="progressive">Progressive</MenuItem>
+            <MenuItem value="static">Static</MenuItem>
+            <MenuItem value="fluctuating">Fluctuating</MenuItem>
           </Select>
         </Grid>
         {/* <Grid item xs={6}>
