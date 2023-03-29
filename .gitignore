@@ -2,3 +2,4 @@ __pycache__
 rndf
 venv
 node_modules
+client/yarn.lock

@@ -26,22 +26,23 @@ export const theme = createTheme();
 
 export default function NewTest() {
   const [values, setValues] = React.useState({
-    case_name: "",
-    case_number: "",
-    age: "",
+    case_name: "newcase",
+    case_number: "1",
+    age: "18",
     // gender: "",
-    contact_number: "",
-    email: "",
+    contact_number: "0000000000",
+    email: "example@example.com",
     // city: "",
     // state: "",
     // pincode: "",
     // place: "",
     // martial_status: "",
     family_history: "",
-    occupation: "",
-    education: "",
-    address: "",
-    duration: "",
+    occupation: "teacher",
+    education: "Bcom",
+    address: "street/city/state",
+    duration: "" ,
+    model_type : "ML",
     nature: "",
     // history: "",
     questions: [],
@@ -128,6 +129,7 @@ export default function NewTest() {
     formdata.append("education", values.education);
     formdata.append("address", values.address);
     formdata.append("duration", values.duration);
+    formdata.append("model_type", values.model_type);
     formdata.append("nature", values.nature);
     formdata.append("questions", JSON.stringify(values.questions));
     formdata.append("passages", JSON.stringify(values.passages));
